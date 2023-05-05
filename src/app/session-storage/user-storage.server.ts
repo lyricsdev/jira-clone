@@ -25,8 +25,9 @@ export const getUserSession = async (request: Request) => {
       const userId = session.get(USER_SESSION_KEY) as UserId | undefined;
       return isValidUserId(userId) ? userId : null;
     },
-    setUser: (userId: UserId) => {
-      if (isValidUserId(userId)) session.set(USER_SESSION_KEY, userId);
+    setUser: (userId: string) => {
+      session.set(USER_SESSION_KEY, userId);
+      console.log(userId)
     },
     destroyUser: () => userStorage.destroySession(session),
     commit: () => userStorage.commitSession(session),

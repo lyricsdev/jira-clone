@@ -62,6 +62,30 @@ export const LoginView = ({ users }: Props) => {
             <Select.ScrollDownButton />
           </SelectContent>
         </Select.Root>
+        <div className="flex flex-col mb-4">
+  <label htmlFor="login" className="mb-1 font-primary-light text-lg">
+    Login
+  </label>
+      <input
+        type="text"
+        id="login"
+        name="login"
+        className="px-3 py-2 border-gray-400 rounded"
+        style={{ color: "black" }}
+      />
+    </div>
+    <div className="flex flex-col mb-4">
+      <label htmlFor="password" className="mb-1 font-primary-light text-lg">
+        Password
+      </label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        className="px-3 py-2 border-gray-400 rounded"
+        style={{ color: "black" }}
+      />
+    </div>
         <button
           type="submit"
           name="_action"

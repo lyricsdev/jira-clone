@@ -3,13 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "mysql"
+url = "mysql://clh7qwnu700079glze8v76069:7lL3hWqm0z2jhwx9XFLBrevE@clh7qwnu9001alz9g5kfgukvi/clh7qwnu800099glz1oom777o"
 }
 
 model User {
   id             String    @id @default(uuid())
   name           String
+  password String 
   image          String?
   color          String
   projects       Project[]

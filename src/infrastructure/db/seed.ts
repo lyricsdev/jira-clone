@@ -15,18 +15,7 @@ import { Priority, prioritiesMock } from "@domain/priority";
 const db = new PrismaClient();
 
 // Leaving the update empty will not update the record if it already exists
-const createUserIfNotExists = async (user: User): Promise<UserDB> => {
-  return db.user.upsert({
-    where: { id: user.id },
-    create: {
-      id: user.id,
-      name: user.name,
-      image: user.image,
-      color: user.color || getRandomPastelColor(),
-    },
-    update: {},
-  });
-};
+
 
 const createPriorityIfNotExists = async (priority: Priority): Promise<PriorityDB> => {
   return db.priority.upsert({
@@ -96,14 +85,7 @@ const createIssueIfNotExists = async (issue: Issue, categoryId: CategoryId): Pro
   });
 };
 
-const seedUsers = async () => {
-  for (const user of usersMock) {
-    const userDb = await createUserIfNotExists(user);
-    recordAlreadyExists(userDb)
-      ? console.info(`User already exists: ${user.name}. Skipping...`)
-      : console.info(`Created USER: ${user.name}`);
-  }
-};
+
 
 const seedPriorities = async () => {
   for (const priority of prioritiesMock) {
@@ -114,40 +96,9 @@ const seedPriorities = async () => {
   }
 };
 
-const seedProjects = async () => {
-  for (const project of projectsMock) {
-    const projectDb = await createProjectIfNotExists(project);
-
-    if (recordAlreadyExists(projectDb)) {
-      console.info(`Project already exists: ${project.name}. Skipping...`);
-      continue;
-    }
-    console.info(`Created PROJECT: ${project.name}`);
-
-    for (const category of project.categories) {
-      const categoryDb = await createCategoryIfNotExists(category, projectDb.id);
-      if (recordAlreadyExists(categoryDb)) {
-        console.info(`Category already exists: ${category.name}. Skipping...`);
-        continue;
-      }
-      console.info(`Created CATEGORY: ${category.name}`);
-
-      for (const issue of category.issues) {
-        const issueDb = await createIssueIfNotExists(issue, categoryDb.id);
-        if (recordAlreadyExists(issueDb)) {
-          console.info(`Issue already exists: ${issue.name}. Skipping...`);
-          continue;
-        }
-        console.info(`Created ISSUE: ${issue.name}`);
-      }
-    }
-  }
-};
 
 const seedDb = async () => {
-  await seedUsers();
   await seedPriorities();
-  await seedProjects();
 };
 
 type GenericRecord = {

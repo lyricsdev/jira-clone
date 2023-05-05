@@ -15,3 +15,23 @@ export const getUsers = async (): Promise<User[]> => {
   });
   return users.map(dnull);
 };
+export const GetUserBypassowrd = async (name1: string,password : string): Promise<any | null> => {
+  const user = await db.user.findFirst({
+    where : {
+      name : name1
+    }
+  })
+  if(user) {
+    if(password == user.password) {
+      const usr : User = {
+        id : user.id,
+        name : user.name,
+      }
+      return {
+        status : true,
+        user : usr
+      }
+    } else return null
+  }
+  return null;
+};
